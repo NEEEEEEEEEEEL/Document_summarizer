@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document Summarizer</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: sans-serif;
+            background: #f4f5fb;
+            padding: 2rem 1rem;
+            color: #1a1a2e;
+        }
+
+        h1 {
+            color: #3b3bbe;
+            margin-bottom: 0.3rem;
+        }
+
+        p.sub {
+            color: #555;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        form {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.6rem 1rem;
+            border: 1.5px solid #d0d4e8;
+            border-radius: 7px;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3b3bbe;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 7px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #3b3bbe;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #2929a0;
+        }
+
+        .btn-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .btn-danger {
+            background: #fce4ec;
+            color: #c62828;
+        }
+
+        .btn-sm {
+            padding: 0.35rem 0.85rem;
+            font-size: 0.82rem;
+        }
+
+        .error {
+            color: #c0392b;
+            background: #fff0f0;
+            padding: 0.7rem 1rem;
+            border-left: 4px solid #e74c3c;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+
+        .header {
+            max-width: 900px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* File browser */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            border: 1.5px solid #e0e2f0;
+            border-radius: 9px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            background: #fafbff;
+        }
+
+        .file-card .file-name {
+            font-weight: 600;
+            font-size: 0.92rem;
+            word-break: break-word;
+        }
+
+        .file-card .file-meta {
+            font-size: 0.78rem;
+            color: #777;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge-pdf {
+            background: #fce4ec;
+            color: #b71c1c;
+        }
+
+        .badge-docx {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .badge-txt {
+            background: #f3e5f5;
+            color: #4a148c;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .section-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-top h2 {
+            font-size: 1.1rem;
+        }
+
+        /* Results table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+        }
+
+        th {
+            background: #f0f1ff;
+            color: #3b3bbe;
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 2px solid #e0e2f0;
+        }
+
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #ebebf5;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        tr:hover td {
+            background: #f9f9ff;
+        }
+
+        .downloads {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        a.btn {
+            color: inherit;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Doc Summarize</h1>
+        <p class="sub">Browse and summarize documents from your Google Drive folder.</p>
+    </div>
+
+    <!-- ─── HOME PAGE ─── -->
+    {% if page == "home" %}
+    <div class="card">
+        <form method="POST" action="/browse">
+            <input type="text" name="folder_id" placeholder="Paste Google Drive Folder ID" required>
+            <button type="submit" class="btn btn-primary">Browse Folder</button>
+        </form>
+        {% if error %}<div class="error">⚠ {{ error }}</div>{% endif %}
+    </div>
+
+    <!-- ─── BROWSE PAGE ─── -->
+    {% elif page == "browse" %}
+    <div class="card">
+        <div class="section-top">
+            <h2>{{ files|length }} files found</h2>
+            <form method="POST" action="/summarize">
+                <button type="submit" class="btn btn-primary">Summarize All</button>
+            </form>
+        </div>
+
+        <div class="file-grid">
+            {% for f in files %}
+            <div class="file-card">
+                {% set ext = f.extension.replace('.', '') %}
+                <span class="badge badge-{{ ext }}">{{ ext.upper() }}</span>
+                <div class="file-name">{{ f.name }}</div>
+                <div class="file-actions">
+                    <a href="/download/file/{{ f.id }}" class="btn btn-success btn-sm">⬇ Download</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top:1.2rem">
+            <a href="/" class="btn btn-sm" style="background:#f0f0f0;color:#333">← Back</a>
+        </div>
+    </div>
+
+    <!-- ─── RESULTS PAGE ─── -->
+    {% elif page == "results" %}
+    <div class="card">
+        <div class="section-top">
+            <h2>{{ results|length }} documents summarized</h2>
+            <div class="downloads">
+                <a href="/download/csv" class="btn btn-success btn-sm">⬇ CSV</a>
+                <a href="/download/pdf" class="btn btn-danger btn-sm">⬇ PDF</a>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:30%">File</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td><strong>{{ row.name }}</strong></td>
+                    <td>{{ row.summary }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="margin-top:1.2rem">
+            <a href="/" class="btn btn-sm" style="background:#f0f0f0;color:#333">← Start Over</a>
+        </div>
+    </div>
+    {% endif %}
+
+</body>
+
+</html>
