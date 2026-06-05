@@ -179,7 +179,7 @@ Paste the folder ID and click **Browse Folder**. You will see all PDF, DOCX, and
 
 **Step 4 — Summarize**
 
-Click **Summarize All**. The first run downloads the AI model (~300MB) which takes a few minutes. After that it is cached locally and starts instantly.
+Click **Summarize All**. The first run downloads the AI model which takes a few minutes. After that it is cached locally and starts instantly.
 
 **Step 5 — Export**
 
