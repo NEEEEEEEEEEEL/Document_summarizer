@@ -17,15 +17,15 @@ An AI-powered web application that connects to your Google Drive folder, extract
 
 ```
 Document_summarizer/
-├── app.py               # Flask routes and orchestration
-├── drive_client.py      # Google Drive authentication and file access
-├── parser.py            # Text extraction (PDF, DOCX, TXT)
-├── summarizer.py        # AI summarization using Hugging Face
-├── requirements.txt     # Python dependencies
-├── .env                 # Your secret keys (never commit this)
-├── .gitignore           # Files to exclude from git
+├── app.py
+├── drive_client.py
+├── parser.py
+├── summarizer.py
+├── requirements.txt
+├── .env
+├── .gitignore
 └── templates/
-    └── index.html       # Web interface
+    └── index.html
 ```
 
 ---
@@ -61,16 +61,19 @@ pip install -r requirements.txt
 ### 4. Set Up Google Drive API
 
 #### 4.1 Create a Google Cloud Project
+
 1. Go to [console.cloud.google.com](https://console.cloud.google.com)
 2. Click the project dropdown at the top → **New Project**
 3. Give it a name like `doc-summarizer` → click **Create**
 
 #### 4.2 Enable Google Drive API
+
 1. In the left sidebar go to **APIs & Services → Library**
 2. Search for **Google Drive API**
 3. Click it → click **Enable**
 
 #### 4.3 Create OAuth Credentials
+
 1. Go to **APIs & Services → Credentials**
 2. Click **Create Credentials → OAuth 2.0 Client ID**
 3. If prompted to configure consent screen, click **Configure Consent Screen**:
@@ -85,11 +88,13 @@ pip install -r requirements.txt
 7. Click **Download JSON**
 8. Rename the downloaded file to `credentials.json`
 9. Move it to your project folder:
+
 ```bash
 mv ~/Downloads/client_secret_*.json ~/Desktop/Document_summarizer/credentials.json
 ```
 
 #### 4.4 Add Yourself as a Test User
+
 1. Go to **APIs & Services → OAuth Consent Screen**
 2. Scroll down to **Test Users** section
 3. Click **Add Users**
@@ -101,9 +106,11 @@ mv ~/Downloads/client_secret_*.json ~/Desktop/Document_summarizer/credentials.js
 ### 5. Set Up Hugging Face Token
 
 #### 5.1 Create a Hugging Face Account
+
 1. Go to [huggingface.co](https://huggingface.co) and sign up for free
 
 #### 5.2 Generate an Access Token
+
 1. Click your profile photo → **Settings**
 2. Click **Access Tokens** in the left sidebar
 3. Click **New Token**
@@ -160,6 +167,7 @@ http://localhost:5000
 **Step 1 — Get your Google Drive Folder ID**
 
 Open Google Drive, navigate to your folder, and copy the ID from the URL:
+
 ```
 https://drive.google.com/drive/folders/THIS_IS_YOUR_FOLDER_ID
 ```
@@ -167,6 +175,7 @@ https://drive.google.com/drive/folders/THIS_IS_YOUR_FOLDER_ID
 **Step 2 — First Run (Google Authorization)**
 
 On first run, a browser window will open asking you to authorize Google Drive access:
+
 - Select your Google account
 - If you see "Google hasn't verified this app" → click **Advanced → Go to doc-summarizer (unsafe)**
 - Click **Allow**
