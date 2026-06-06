@@ -73,7 +73,7 @@ def run_summarize():
             raw = download_file(service, f)
             text = extract_text(raw, f["extension"])
             summary = summarize(text, f["name"])
-            results.append({"name": f["name"], "summary": summary})
+            results.append({"name": f["name"], "summary": summary, "link": f"https://drive.google.com/file/d/{f['id']}/view" })
         session["results"] = results
         return render_template("index.html", page="results", results=results, folder_id=folder_id)
     except Exception as e:
