@@ -4,6 +4,16 @@ An AI-powered web application that connects to your Google Drive folder, extract
 
 ---
 
+<table>
+  <tr>
+    <td><img src="screenshots/a.png" width="400"/></td>
+    <td><img src="screenshots/b.png" width="400"/></td>
+    <td><img src="screenshots/c.png" width="400"/></td>
+  </tr>
+</table>
+
+---
+
 ## Features
 
 - Browse all documents in a Google Drive folder
