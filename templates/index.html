@@ -283,7 +283,12 @@
             <tbody>
                 {% for row in results %}
                 <tr>
-                    <td><strong>{{ row.name }}</strong></td>
+                    <td>
+                        <strong>{{ row.name }}</strong><br>
+                        <a href="{{ row.link }}" target="_blank" style="font-size:0.8rem;color:#3b3bbe;">
+                            🔗 Open in Drive
+                        </a>
+                    </td>
                     <td>{{ row.summary }}</td>
                 </tr>
                 {% endfor %}
