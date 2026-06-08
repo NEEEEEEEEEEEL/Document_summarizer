@@ -109,7 +109,7 @@ def download_pdf():
     pdf.ln(4)
     for i, row in enumerate(results, 1):
         pdf.set_font("Helvetica", "B", 12)
-        pdf.cell(0, 9, f"{i}. {row['name']}", ln=True, fill=True)
+        pdf.cell(0, 9, f"{i}. {row['name']}", ln=True, fill=False)
         pdf.set_font("Helvetica", "", 11)
         pdf.multi_cell(0, 7, row["summary"])
         pdf.ln(4)
